@@ -2,8 +2,11 @@ class UserController < ApplicationController
 
   before_action :authenticate_user!
 
+  def index
+    @users = User.all_but(current_user)
+  end
+
   def feed
-    @user = User.find(params[:id])
   end
 
 end
