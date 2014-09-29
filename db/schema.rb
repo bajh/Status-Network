@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928135705) do
+ActiveRecord::Schema.define(version: 20140929140211) do
 
   create_table "friendships", force: true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "approved?"
   end
 
   add_index "friendships", ["user_id"], name: "index_friendships_on_user_id"
@@ -46,6 +47,7 @@ ActiveRecord::Schema.define(version: 20140928135705) do
     t.datetime "updated_at"
     t.string   "screen_name",            limit: 18
     t.string   "location"
+    t.string   "status"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
