@@ -5,3 +5,10 @@
   <% else %>
     <%= button_to "Change Status to Available", toggle_status_path, method: :post, remote: true %>
   <% end %>
+
+  <h2>Available friends:</h2>
+  <ul>
+    <% @friends.each do |friend| %>
+    <li data-uid="<%= friend.id %>"><%= friend.screen_name %></li>
+    <% end %>
+  </ul>
