@@ -1,1 +1,6 @@
 $('.current_status').text("<%= @new_status %>");
+if ("<%= @new_status %>" == "unavailable") {
+  $(':submit').attr('value', "Change status to Available");
+} else {
+  $(':submit').attr('value', "Change status to Unavailable");
+;}
