@@ -1,2 +1,7 @@
 <h1>Welcome to your feed, <%= current_user.screen_name %>!</h1>
-
+<h2>Your current status is <span class="current_status"><%= current_user.status %></span></h2>
+  <% if current_user.status == "available" %>
+    <%= button_to "Change Status to Unavailable",  toggle_status_path, method: :post, remote: true %>
+  <% else %>
+    <%= button_to "Change Status to Available", toggle_status_path, method: :post, remote: true %>
+  <% end %>

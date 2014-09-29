@@ -9,7 +9,16 @@ class User < ActiveRecord::Base
 
 
   def active_friends
+    friends.where(status: "available")
+  end
 
+  def toggle_status
+    if self.status == "available"
+      self.status = "unavailable"
+    else
+      self.status = "available"
+    end
+    return self.status
   end
 
   def self.all_but(user)

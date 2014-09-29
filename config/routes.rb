@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'users/:id/feed' => 'user#feed'
   get 'users' => 'user#index'
+  post 'toggle_status' => 'user#toggle_status'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

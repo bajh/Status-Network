@@ -6,7 +6,7 @@ class FriendshipController < ApplicationController
     if @friendship.save && @reciprocal_friendship.save
       render json: @friendship
     else
-      render json: { errors: @friendship.errors.full_messages }
+      render json: { errors: [@friendship.errors.full_messages, @reciprocal_friendship.errors.full_messages] }
     end
   end
 
