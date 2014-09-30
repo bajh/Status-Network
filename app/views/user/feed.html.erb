@@ -1,14 +1,48 @@
 <h1>Welcome to your feed, <%= current_user.screen_name %>!</h1>
 <h2>Your current status is <span class="current_status"><%= current_user.status %></span></h2>
+  <div class="update_status">
   <% if current_user.status == "available" %>
-    <%= button_to "Change Status to Unavailable",  toggle_status_path, method: :post, remote: true %>
+    Change Status to Unavailable
   <% else %>
-    <%= button_to "Change Status to Available", toggle_status_path, method: :post, remote: true %>
+    Change Status to Available
   <% end %>
+  </div>
 
   <h2>Available friends:</h2>
-  <ul>
+  <ul class="friends">
     <% @friends.each do |friend| %>
-    <li data-uid="<%= friend.id %>"><%= friend.screen_name %></li>
+    <li id="u<%= friend.id %>"><%= friend.screen_name %></li>
     <% end %>
   </ul>
+
+  <script type="text/javascript">
+
+    var dispatcher = new WebSocketRails('localhost:3000/websocket');
+    dispatcher.trigger('statuses.online');
+    channel = dispatcher.subscribe("<%= 'u' + current_user.id.to_s %>");
+    $('.update_status').on('click', function(){
+      dispatcher.trigger('statuses.update');
+    });
+    
+    dispatcher.bind('statuses.update_success', function(message){
+      $('.current_status').text(message);
+      if (message == "available") {
+        $('.update_status').text("Change Status to Unavailable");
+      } else {
+        $('.update_status').text("Change Status to Available");
+      }
+    });
+
+    dispatcher.bind('statuses.update_fail', function(message){
+      //When I do more of the front-end styling, need to come back and review this for consistency
+      $('.container').prepend("<div class='error_messages'>" + message + "</div>");
+    });
+
+    channel.bind('friend_update', function(data){
+      if (data.status == "available"){
+        $('.friends').append("<li id='u" + data.friend_id + "'>" + data.friend_name + "</li>");
+      } else {
+        $('#u' + data.friend_id).remove();
+      }
+    });
+  </script>

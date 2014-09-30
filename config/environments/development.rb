@@ -32,6 +32,8 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.middleware.delete Rack::Lock
+
   ENV["REDISTOGO_URL"] = 'redis://localhost:6379'
 
   # Raises error for missing translations
